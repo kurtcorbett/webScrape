@@ -1,1 +1,4 @@
-angular.module('kslScrape', []);
+angular.module('webScrape', [])
+  .controller('mainController', function($scope) {
+
+  })
