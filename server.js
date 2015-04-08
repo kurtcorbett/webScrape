@@ -36,23 +36,7 @@ var urlParams =
     , sort            : searchParams.sort            || ''
   }
 
-
-
-// parse url and extract params object
-
-function getUrlParamsObject(url) {
-  var params = url.match(/(\w*\d*?)=/gmi);
-  var urlParamsObj = {} 
-  params.map(function(param) {
-    urlParamsObj[param] = ''
-  })
-
-  return urlParamsObj;
-}
-
-
-function getData(urlParams, callback) {
-  var url = 'http://www.ksl.com/index.php?nid=231' 
+var url = 'http://www.ksl.com/index.php?nid=231' 
   // + '&nid=' + urlParams.nid
   + '&sid=' + urlParams.sid
   + '&cat=' + urlParams.cat
@@ -80,9 +64,25 @@ function getData(urlParams, callback) {
   + '&sort=' + urlParams.sort;
 
 
+// parse url and extract params object
+
+function getUrlParamsObject(url) {
+  var params = url.match(/(\w*\d*?)=/gmi);
+  var urlParamsObj = {} 
+  params.map(function(param) {
+    urlParamsObj[param] = ''
+  })
+
+  return urlParamsObj;
+}
+
+
+
+function getAds(url, callback) {
   request(url, function(error, response, html) {
     if(!error && response.statusCode === 200) {
       var $ = cheerio.load(html);
+      
 
       var adsArray = []  
 
@@ -100,14 +100,14 @@ function getData(urlParams, callback) {
         adsArray.push(classifiedAd);
 
       });
-      console.log(url);
       callback(adsArray);
+      console.log(url);
     }
   })
 }
 
 app.get('/', function(req,res) {
-  getData(urlParams, function(ads) {
+  getAds(url, function(ads) {
     res.send(ads)
   })
 });
