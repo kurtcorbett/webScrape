@@ -1,6 +1,9 @@
-(function() {
-    'use strict';
+var angular = require('angular');
 
-    angular
-        .module('app', []);
+(function() {
+  'use strict';
+
+  angular
+      .module('app', []);
+
 })();
