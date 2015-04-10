@@ -1,10 +1,10 @@
+
+// I know this is not the js way, but I like it better
 var angular   = require('angular')
-  , router    = require('angular-ui-router');
+var router    = require('angular-ui-router');
 
-(function() {
-  'use strict';
+var controller = require('./main.controller.js');
 
-  angular
-    .module('app', [router]);
 
-})();
+var app = angular.module('app', ['ui.router']);
+app.controller('Main', controller);

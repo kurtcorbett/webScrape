@@ -1,25 +1,17 @@
-var angular  = require('angular')
-    console.log('beans')
+var angular  = require('angular');
 
-(function() {
-    'use strict';
+var controller = function() {
+    var vm = this;
+    vm.title = 'Main';
+    vm.name = "Kurt"
 
+    activate();
 
-    angular
-        .module('app')
-        .controller('Main', Main);
+    ////////////////
 
-    /* @ngInject */
-    function Main($scope) {
-        var vm = this;
-        vm.title = 'Main';
-        vm.name = "Kurt"
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-        }
+    function activate() {
+    
     }
-})();
+};
+
+module.exports = controller;
