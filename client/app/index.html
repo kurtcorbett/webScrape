@@ -5,19 +5,17 @@
   <title>Web Scrape</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/app.css">
-  <script src="bundle.js"></script>
 </head>
-<body ng-app='app'>
- 
- 1+1 = {{1+1}}
+  <body ng-app='app'>
 
-<div ng-controller='Main as main'>
-  
-  My name is {{main.name}}
+    <div ng-controller='Main as main'> My name is {{main.name}} </div>
 
-</div>
+    <div ui-view></div>
+
+    <a ui-sref="state1">State 1</a>
+    <a ui-sref="state2">State 2</a>
 
 
-  <script src="main.controller.js"></script>
-</body>
+    <script src="bundle.js"></script>
+  </body>
 </html>

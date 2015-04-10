@@ -1,9 +1,10 @@
-var angular = require('angular');
+var angular   = require('angular')
+  , router    = require('angular-ui-router');
 
 (function() {
   'use strict';
 
   angular
-      .module('app', []);
+    .module('app', [router]);
 
 })();

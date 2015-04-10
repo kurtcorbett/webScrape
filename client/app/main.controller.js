@@ -1,5 +1,9 @@
+var angular  = require('angular')
+    console.log('beans')
+
 (function() {
     'use strict';
+
 
     angular
         .module('app')

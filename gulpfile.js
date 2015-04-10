@@ -23,5 +23,5 @@ gulp.task('serve', function() {
 });
 
 gulp.task('watch', function () {
-  gulp.watch('./client/app/**/*.js', ['browserify']);
+  gulp.watch('./client/app/**/**', ['browserify']);
 });
