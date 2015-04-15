@@ -3,6 +3,8 @@
 var angular   = require('angular');
 var router    = require('angular-ui-router');
 
+require('./classifieds/classifieds.module.js');
+
 // I am requiring in the function that I created in my main.controller.js
 var mainController = require('./main.controller.js')
   , configure  = require('./app.config.js')
@@ -10,16 +12,16 @@ var mainController = require('./main.controller.js')
   , classifiedsService  = require('./services/getClassifieds.service.js')
 
 
-var app = angular.module('app', [router]);
+var app = angular.module('app', [router, 'Classifieds']);
 
  // I am wiring up the controller into the app
-app.controller('Classifieds', classifiedsController);
+// app.controller('Classifieds', classifiedsController);
 app.controller('Main', mainController);
 app.config(configure);
 app.factory('classifiedsService', classifiedsService);
 
 //  This is the only "angular" file in your module.  The controller and services and stuff will be straight js
-},{"./app.config.js":2,"./classifieds/classifieds.controller.js":3,"./main.controller.js":4,"./services/getClassifieds.service.js":5,"angular":8,"angular-ui-router":6}],2:[function(require,module,exports){
+},{"./app.config.js":2,"./classifieds/classifieds.controller.js":3,"./classifieds/classifieds.module.js":4,"./main.controller.js":5,"./services/getClassifieds.service.js":6,"angular":9,"angular-ui-router":7}],2:[function(require,module,exports){
 /* @ngInject */
 function configure($stateProvider, $urlRouterProvider) {
 
@@ -68,6 +70,13 @@ function Classifieds(classifiedsService) {
 module.exports  = Classifieds;
 
 },{}],4:[function(require,module,exports){
+var angular = require('angular');
+
+var app = angular.module('classifieds', []);
+
+var classifiedsController = require('./classifieds.controller.js');
+app.controller('Classifieds', classifiedsController);
+},{"./classifieds.controller.js":3,"angular":9}],5:[function(require,module,exports){
 // I am just creating a named function that will be exported below.
 // You don't need $scope now that you are using controllerAs syntax
 function Main() {
@@ -92,7 +101,7 @@ function Main() {
 
 // Exporting what I want from this file.  It can be a single function or a complex object.
 module.exports = Main;
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /* @ngInject */
 function classifiedsService($http) {
     var service = {
@@ -114,7 +123,7 @@ function classifiedsService($http) {
 };
 
 module.exports = classifiedsService;
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.13
@@ -4347,7 +4356,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.15
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -30657,8 +30666,8 @@ var minlengthDirective = function() {
 })(window, document);
 
 !window.angular.$$csp() && window.angular.element(document).find('head').prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}</style>');
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":7}]},{},[1]);
+},{"./angular":8}]},{},[1]);
