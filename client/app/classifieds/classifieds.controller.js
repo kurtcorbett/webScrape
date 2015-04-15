@@ -1,20 +1,19 @@
-(function() {
-    'use strict';
+function Classifieds(classifiedsService) {
+    var vm = this;
+    vm.title = 'Classifieds';
+    vm.data;
 
-    angular
-        .module('app')
-        .controller('Classifieds', Classifieds);
 
-    /* @ngInject */
-    function Classifieds(dependencies) {
-        var vm = this;
-        vm.title = 'Classifieds';
+    activate();
 
-        activate();
+    ////////////////
 
-        ////////////////
-
-        function activate() {
-        }
+    function activate() {
+      classifiedsService.getClassifieds()
+        .then(function(response) {
+          vm.data = response.data;
+        });    
     }
-})();
+}
+
+module.exports  = Classifieds;

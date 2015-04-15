@@ -1,4 +1,4 @@
-var seachParams = {
+var searchParams = {
 
     nid             :  ''       
   , sid             :  ''
@@ -27,4 +27,4 @@ var seachParams = {
   , sort            :  ''    
 }
 
-module.exports = seachParams
+module.exports = searchParams

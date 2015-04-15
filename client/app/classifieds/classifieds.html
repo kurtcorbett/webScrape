@@ -1,0 +1,15 @@
+<div ng-controller='Classifieds as classifieds'>
+  <h1>{{classifieds.title}}</h1>
+
+  <ul ng-repeat='ad in classifieds.data'>
+    
+    <h4><a ng-href="{{ad.link}}">{{ad.title}}</a></h6>
+    <p>Description: {{ ad.description }}</p>
+    <p>Price: {{ ad.price | currency }}</p>
+    <p>Location: {{ ad.location }}</p>
+    <img ng-src="{{ad.imgUrl}}" alt="">
+    <hr>
+
+  </ul>
+
+</div>

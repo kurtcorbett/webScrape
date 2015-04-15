@@ -1,44 +1,120 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-
 // I know this is not the js way, but I like it better
-var angular   = require('angular')
+var angular   = require('angular');
 var router    = require('angular-ui-router');
 
 // I am requiring in the function that I created in my main.controller.js
-var controller = require('./main.controller.js');
+var mainController = require('./main.controller.js')
+  , configure  = require('./app.config.js')
+  , classifiedsController = require('./classifieds/classifieds.controller.js')
+  , classifiedsService  = require('./services/getClassifieds.service.js')
 
 
-var app = angular.module('app', ['ui.router']);
+var app = angular.module('app', [router]);
 
-//  I am wiring up the controller into the app
-app.controller('Main', controller);
+ // I am wiring up the controller into the app
+app.controller('Classifieds', classifiedsController);
+app.controller('Main', mainController);
+app.config(configure);
+app.factory('classifiedsService', classifiedsService);
 
 //  This is the only "angular" file in your module.  The controller and services and stuff will be straight js
-},{"./main.controller.js":2,"angular":5,"angular-ui-router":3}],2:[function(require,module,exports){
-var angular  = require('angular');
+},{"./app.config.js":2,"./classifieds/classifieds.controller.js":3,"./main.controller.js":4,"./services/getClassifieds.service.js":5,"angular":8,"angular-ui-router":6}],2:[function(require,module,exports){
+/* @ngInject */
+function configure($stateProvider, $urlRouterProvider) {
 
-// I am just creating a named function that will be exported below.
-// You don't need $scope now that you are using controllerAs syntax
-var controller = function() {
-    //  Anything attached to this will be attached to the scope and usable in the html file
-    // You can alias this like you are doing, or just use this.title and this.name
+  $urlRouterProvider.otherwise("/");
+//
+// Now set up the states
+  $stateProvider
+    .state('classifieds', {
+      url: "/",
+      templateUrl: "./classifieds/classifieds.html",
+    })
+    .state('state2', {
+      url: "/state2",
+      templateUrl: "./layout/state2.html"
+    })
+    .state('state2.list', {
+      url: "/list",
+      templateUrl: "./layout/state2.list.html",
+      controller: function($scope) {
+        $scope.things = ["A", "Set", "Of", "Things"];
+      }
+    });
+
+}
+
+module.exports  = configure;
+},{}],3:[function(require,module,exports){
+function Classifieds(classifiedsService) {
     var vm = this;
-    vm.title = 'Main';
-    vm.name = "Kurt"
+    vm.title = 'Classifieds';
+    vm.data;
+
 
     activate();
 
     ////////////////
 
     function activate() {
-    
+      classifiedsService.getClassifieds()
+        .then(function(response) {
+          vm.data = response.data;
+        });    
     }
+}
+
+module.exports  = Classifieds;
+
+},{}],4:[function(require,module,exports){
+// I am just creating a named function that will be exported below.
+// You don't need $scope now that you are using controllerAs syntax
+function Main() {
+    //  Anything attached to this will be attached to the scope and usable in the html file
+    // You can alias this like you are doing, or just use this.title and this.name
+  var vm = this;
+  vm.title = 'Main';
+  vm.name = "Kurt";
+  vm.data = 'beans';
+
+
+  activate();
+
+  ////////////////
+
+  function activate() {
+  
+  }
+  
 };
 
 
 // Exporting what I want from this file.  It can be a single function or a complex object.
-module.exports = controller;
-},{"angular":5}],3:[function(require,module,exports){
+module.exports = Main;
+},{}],5:[function(require,module,exports){
+/* @ngInject */
+function classifiedsService($http) {
+    var service = {
+        getClassifieds: getClassifieds
+    };
+    return service;
+
+    ////////////////
+
+    function getClassifieds() {
+      return $http.get('http://localhost:3000/')
+        .success(function(data, status, headers, config) {
+          return data;
+        })
+        .error(function(data, status, headers, config ) {
+          console.log('Error: ' + data);
+        });  
+    };
+};
+
+module.exports = classifiedsService;
+},{}],6:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.13
@@ -4271,7 +4347,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],4:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * @license AngularJS v1.3.15
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -30581,8 +30657,8 @@ var minlengthDirective = function() {
 })(window, document);
 
 !window.angular.$$csp() && window.angular.element(document).find('head').prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}</style>');
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":4}]},{},[1]);
+},{"./angular":7}]},{},[1]);

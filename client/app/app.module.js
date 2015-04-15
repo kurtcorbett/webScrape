@@ -1,15 +1,20 @@
-
 // I know this is not the js way, but I like it better
-var angular   = require('angular')
+var angular   = require('angular');
 var router    = require('angular-ui-router');
 
 // I am requiring in the function that I created in my main.controller.js
-var controller = require('./main.controller.js');
+var mainController = require('./main.controller.js')
+  , configure  = require('./app.config.js')
+  , classifiedsController = require('./classifieds/classifieds.controller.js')
+  , classifiedsService  = require('./services/getClassifieds.service.js')
 
 
-var app = angular.module('app', ['ui.router']);
+var app = angular.module('app', [router]);
 
-//  I am wiring up the controller into the app
-app.controller('Main', controller);
+ // I am wiring up the controller into the app
+app.controller('Classifieds', classifiedsController);
+app.controller('Main', mainController);
+app.config(configure);
+app.factory('classifiedsService', classifiedsService);
 
 //  This is the only "angular" file in your module.  The controller and services and stuff will be straight js
