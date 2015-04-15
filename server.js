@@ -3,9 +3,14 @@ var request     = require('request')
   , app         = express()
   , bodyParser  = require('body-parser')
   , cheerio     = require('cheerio')
-  , searchParams= require('./searchParams.js');
+  , searchParams= require('./searchParams.js')
+  , mongoose    = require('mongoose')
+  , cors        = require('cors');
 
 app.use(bodyParser.json());
+app.use(cors());
+
+mongoose.connect('mongodb://localhost/db_name');
 
 var urlParams = 
 
@@ -76,7 +81,7 @@ function getUrlParamsObject(url) {
   return urlParamsObj;
 }
 
-
+var baseUrl = 'http://www.ksl.com/index.php'
 
 function getAds(url, callback) {
   request(url, function(error, response, html) {
@@ -90,13 +95,18 @@ function getAds(url, callback) {
 
         var classifiedAd = 
         {
-            adTitle     :  $(this).find('.adTitle').text().trim()
+            title       :  $(this).find('.adTitle').text().trim()
+          , link        :  baseUrl + $(this).find('.listlink').attr('href') 
           , description :  $(this).find('.adDesc').text().trim()
           , price       :  $(this).find('.priceBox').find('span').first().text().trim()
           , location    :  $(this).find('.adTime').find('span').text().trim()
           ,  img        :  $(this).find('img').attr()
         }
-        console.log(classifiedAd.price);
+        //remove dollar signs from price and trailing cents
+        classifiedAd.price = Number(classifiedAd.price.replace(/[^0-9\.]+/g,"") / 100);
+
+        // console.log(classifiedAd.price);
+        console.log(classifiedAd.link);
         adsArray.push(classifiedAd);
 
       });
@@ -108,8 +118,13 @@ function getAds(url, callback) {
 
 app.get('/', function(req,res) {
   getAds(url, function(ads) {
-    res.send(ads)
+    res.send(ads);
+    console.log(url);
   })
+});
+
+app.get('/classifieds', function(req,res) {
+  res.send("Hello from the server");
 });
 
 
