@@ -8,6 +8,7 @@ var request     = require('request')
   , searchParams= require('./server/searchParams.js')
   , urlParams   = require('./server/urlParams.js')
   , url         = require('./server/url.js')
+  , Ad          = require('./server/ads/ad.schema.js')
 
 
 app.use(bodyParser.json());
@@ -58,7 +59,7 @@ function createAd(self) {
       , description :  self.find('.adDesc').text().trim()
       , price       :  self.find('.priceBox').find('span').first().text().trim()
       , location    :  self.find('.adTime').find('span').text().trim()
-      , img         :  self.find('img').attr('src')
+      , imgUrl      :  self.find('img').attr('src')
       // , adTime      :  getTextNodesIn($(this).find('.adTime'))
     }
   //remove dollar signs from price and trailing cents
